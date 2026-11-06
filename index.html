@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VolcanoWatch - Monitoring Gunung Berapi</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>VOLCANO<span>WATCH</span></h2>
+            <p>Monitoring System</p>
+        </div>
+
+        <nav>
+            <a href="#dashboard" class="active">Dashboard</a>
+            <a href="#sensor">Monitoring Sensor</a>
+            <a href="#fuzzy">Deteksi Anomali</a>
+            <a href="#grafik">Grafik Sensor</a>
+            <a href="#riwayat">Riwayat Data</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <span class="online-dot"></span>
+            Sistem Simulasi Aktif
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="header" id="dashboard">
+
+            <div>
+                <h1>Dashboard Monitoring Gunung Berapi</h1>
+                <p>Sistem pemantauan gas dan temperatur</p>
+            </div>
+
+            <div class="header-right">
+
+                <div class="live-status">
+                    <span class="online-dot"></span>
+                    LIVE MONITORING
+                </div>
+
+                <div id="currentTime">--:--:--</div>
+
+            </div>
+
+        </header>
+
+
+        <!-- INFORMASI GUNUNG -->
+        <section class="volcano-info">
+
+            <div>
+                <p class="small-label">LOKASI MONITORING</p>
+
+                <h2>Gunung Berapi - Area Pemantauan</h2>
+
+                <p>Data simulasi untuk pengujian sistem monitoring</p>
+            </div>
+
+            <div class="status-box">
+
+                <span>KONDISI SISTEM</span>
+
+                <h2 id="overallStatus">NORMAL</h2>
+
+            </div>
+
+        </section>
+
+
+        <!-- SENSOR -->
+        <section id="sensor">
+
+            <div class="section-heading">
+
+                <h2>Monitoring Sensor</h2>
+
+                <p>Pembaruan data otomatis setiap 2 detik</p>
+
+            </div>
+
+
+            <div class="sensor-grid">
+
+                <!-- SO2 -->
+                <div class="sensor-card">
+
+                    <div class="sensor-top">
+
+                        <span class="sensor-icon">SO₂</span>
+
+                        <span class="sensor-status normal" id="statusSO2">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+                    <h3>Sensor Sulfur Dioksida</h3>
+
+                    <div class="sensor-value">
+                        <span id="valueSO2">0.00</span>
+                        <small>ppm</small>
+                    </div>
+
+                    <div class="sensor-description">
+                        Konsentrasi gas sulfur dioksida
+                    </div>
+
+                </div>
+
+
+                <!-- H2S -->
+                <div class="sensor-card">
+
+                    <div class="sensor-top">
+
+                        <span class="sensor-icon">H₂S</span>
+
+                        <span class="sensor-status normal" id="statusH2S">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+                    <h3>Sensor Hidrogen Sulfida</h3>
+
+                    <div class="sensor-value">
+                        <span id="valueH2S">0.00</span>
+                        <small>ppm</small>
+                    </div>
+
+                    <div class="sensor-description">
+                        Konsentrasi gas hidrogen sulfida
+                    </div>
+
+                </div>
+
+
+                <!-- CO2 -->
+                <div class="sensor-card">
+
+                    <div class="sensor-top">
+
+                        <span class="sensor-icon">CO₂</span>
+
+                        <span class="sensor-status normal" id="statusCO2">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+                    <h3>Sensor Karbon Dioksida</h3>
+
+                    <div class="sensor-value">
+                        <span id="valueCO2">0</span>
+                        <small>ppm</small>
+                    </div>
+
+                    <div class="sensor-description">
+                        Konsentrasi gas karbon dioksida
+                    </div>
+
+                </div>
+
+
+                <!-- TEMPERATUR -->
+                <div class="sensor-card">
+
+                    <div class="sensor-top">
+
+                        <span class="sensor-icon">TEMP</span>
+
+                        <span class="sensor-status normal" id="statusTemp">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+                    <h3>Sensor Temperatur</h3>
+
+                    <div class="sensor-value">
+                        <span id="valueTemp">0.0</span>
+                        <small>°C</small>
+                    </div>
+
+                    <div class="sensor-description">
+                        Temperatur area pemantauan
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FUZZY LOGIC -->
+        <section id="fuzzy">
+
+            <div class="section-heading">
+
+                <h2>Deteksi Anomali Fuzzy Logic</h2>
+
+                <p>Analisis tingkat penyimpangan pembacaan sensor</p>
+
+            </div>
+
+
+            <div class="fuzzy-card">
+
+                <div class="fuzzy-left">
+
+                    <p class="small-label">SKOR ANOMALI</p>
+
+                    <div class="score-container">
+
+                        <span id="anomalyScore">0</span>
+
+                        <small>/ 100</small>
+
+                    </div>
+
+                    <div class="progress-background">
+
+                        <div id="scoreProgress"></div>
+
+                    </div>
+
+                    <h3 id="fuzzyStatus">NORMAL</h3>
+
+                    <p id="fuzzyDescription">
+                        Kondisi sensor berada dalam rentang simulasi normal.
+                    </p>
+
+                </div>
+
+
+                <div class="fuzzy-right">
+
+                    <h3>Hasil Analisis</h3>
+
+                    <div class="analysis-item">
+                        <span>Keanggotaan Normal</span>
+                        <strong id="normalValue">0%</strong>
+                    </div>
+
+                    <div class="analysis-item">
+                        <span>Keanggotaan Waspada</span>
+                        <strong id="warningValue">0%</strong>
+                    </div>
+
+                    <div class="analysis-item">
+                        <span>Keanggotaan Bahaya</span>
+                        <strong id="dangerValue">0%</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- GRAFIK -->
+        <section id="grafik">
+
+            <div class="section-heading">
+
+                <h2>Grafik Monitoring Sensor</h2>
+
+                <p>Grafik perubahan nilai seluruh sensor berdasarkan waktu</p>
+
+            </div>
+
+            <div class="chart-card">
+
+                <canvas id="sensorChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIWAYAT -->
+        <section id="riwayat">
+
+            <div class="section-heading history-heading">
+
+                <div>
+
+                    <h2>Riwayat Pembacaan Sensor</h2>
+
+                    <p>Data pembacaan sensor yang tersimpan</p>
+
+                </div>
+
+
+                <div class="history-buttons">
+
+                    <button class="export-button" onclick="exportCSV()">
+                        Export CSV
+                    </button>
+
+                    <button class="delete-button" onclick="clearHistory()">
+                        Hapus Riwayat
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Waktu</th>
+                            <th>SO₂</th>
+                            <th>H₂S</th>
+                            <th>CO₂</th>
+                            <th>Temperatur</th>
+                            <th>Skor Anomali</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="historyTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- KONTROL SIMULASI -->
+        <section class="simulation-section">
+
+            <div>
+
+                <h3>Kontrol Data Dummy</h3>
+
+                <p>Gunakan tombol berikut untuk menguji kondisi sensor.</p>
+
+            </div>
+
+
+            <div class="simulation-buttons">
+
+                <button onclick="generateDummy('normal')">
+                    Simulasi Normal
+                </button>
+
+                <button onclick="generateDummy('warning')">
+                    Simulasi Waspada
+                </button>
+
+                <button onclick="generateDummy('danger')">
+                    Simulasi Bahaya
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <p>VOLCANOWATCH - Dashboard Monitoring Gunung Berapi</p>
+
+            <small>
+                Data yang ditampilkan merupakan data dummy untuk pengujian.
+            </small>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
